@@ -4,8 +4,8 @@ import {
     Paper, Stack, Box
 } from '@mui/material';
 
+import musicImage from '../src/assets/humanoid.svg';
 
-// #region ------------ ICONS ---------
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
@@ -18,34 +18,20 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import  GetAppIcon  from '@mui/icons-material/GetApp';
-// #endregion ------------ ICONS ---------
 
-// #region ------- Tracts -------------------------------------------------------
-import fade from './music/As You Fade Away - NEFFEX.mp3'
-import enough from './music/Enough - NEFFEX.mp3'
-import immortal from './music/Immortal - NEFFEX.mp3';
-import playDead from './music/Play Dead - NEFFEX.mp3';
-import winning from './music/Winning - NEFFEX.mp3';
-// #endregion ---------------------------------------------------------------
 
-// #region -------- Styled Components -----------------------------------------
-const Div = styled('div')(({theme}) => ({
-    backgroundColor: 'transparent',
-    width:'100vw',
-    position:'fixed',
-    right:'0',
-    bottom:'0',
-}))
+
 
 const CustomPaper = styled(Paper)(({theme}) => ({
     backgroundColor: '#181818',
-    marginLeft: theme.spacing(6),
-    marginRight: theme.spacing(6),
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
+    position:'fixed',
+    right:'0',
+    bottom:'0'
 }))
 
 const PSlider = styled(Slider)(({theme, ...props}) => ({
-    color:'#FE7E07',
+    color:'#ECE817',
     height: 2,
     '&:hover': {
         cursor: 'auto',
@@ -56,19 +42,57 @@ const PSlider = styled(Slider)(({theme, ...props}) => ({
         display: props.thumbless ? 'none' : 'block',
     }
 }))
-// #endregion ---------------------------------------------------------------
 
-
-const playlist = [fade, enough, immortal, playDead, winning];
-
+const playlist = [
+    {
+      url:
+        "http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3",
+      cover:
+        "http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg",
+      title: "Despacito",
+      artist: ["Luis Fonsi", "Daddy Yankee"]
+    },
+    {
+      url:
+        "http://res.cloudinary.com/alick/video/upload/v1502375674/Bedtime_Stories.mp3",
+      cover:
+        "http://res.cloudinary.com/alick/image/upload/v1502375978/bedtime_stories_bywggz.jpg",
+      title: "Bedtime Stories",
+      artist: ["Jay Chou"]
+    },
+    {
+      url:
+        "http://res.cloudinary.com/alick/video/upload/v1502444212/Actor_ud8ccw.mp3",
+      cover:
+        "http://res.cloudinary.com/alick/image/upload/v1502444304/actor_umzdur.jpg",
+      title: "演员",
+      artist: ["薛之谦"]
+    },
+    {
+      url:
+        "http://res.cloudinary.com/alick/video/upload/v1502444215/Bridge_of_Fate_aaksg1.mp3",
+      cover:
+        "http://res.cloudinary.com/alick/image/upload/v1502444306/Bridge_of_Fate_o36rem.jpg",
+      title: "Bridge of Fate",
+      artist: ["王力宏", "谭维维"]
+    },
+    {
+      url:
+        "http://res.cloudinary.com/alick/video/upload/v1502444222/Goodbye_byaom5.mp3",
+      cover:
+        "http://res.cloudinary.com/alick/image/upload/v1502444310/Goodbye_hpubmk.jpg",
+      title: "Goodbye",
+      artist: ["G.E.M."]
+    }
+  ];
 
 export default function Player() {
     const audioPlayer = useRef()
 
     const [index, setIndex] = useState(0);
-
+    
     const [currentSong] = useState(playlist[index]);
-
+    
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(30);
     const [mute, setMute] = useState(false);
@@ -120,7 +144,13 @@ export default function Player() {
     }
 
     const toggleBackward = () => {
-        audioPlayer.current.currentTime -= 10;
+        if(audioPlayer.current.currentTime> 9){
+            audioPlayer.current.currentTime -= 10;
+        }
+        else{
+            audioPlayer.current.currentTime = 0;
+        }
+        
     }
 
     const toggleSkipForward = () => {
@@ -143,7 +173,7 @@ export default function Player() {
         }
     }
     const toggleDownload = () =>{
-        return console.log('baixou');
+        return console.log(playlist.length);
     }
     
     function VolumeBtns(){
@@ -153,12 +183,21 @@ export default function Player() {
             : volume <= 75 ? <VolumeDownIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={() => setMute(!mute)} />
             : <VolumeUpIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={() => setMute(!mute)} />
     }
+    
+
 
     return (
-        <Div>
-            <audio src={currentSong} ref={audioPlayer} muted={mute} />
-            <CustomPaper>
-                <h1 style={{color:'#FE7E07'}}>Humanoid</h1>
+        <div>
+            <audio src={currentSong.url} ref={audioPlayer} muted={mute} />
+            <CustomPaper sx={{width:'400px'}}>
+                <Stack
+                    sx={{display:'flex',alignItems:'center',flexDirection:'row',gap:'30px'}}
+                >
+                    <img style={{width:'100px'}} src={currentSong.cover} alt="music" />
+                    <h1 style={{color:'#Fff'}}>{currentSong.title}</h1>    
+                    
+                </Stack>
+                    
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Stack direction='row' spacing={1} 
                         sx={{
@@ -220,6 +259,6 @@ export default function Player() {
                     <Typography sx={{color: 'white'}}>{formatTime(duration - elapsed)}</Typography>
                 </Stack>
             </CustomPaper>
-        </Div>
+        </div>
     )
 }
