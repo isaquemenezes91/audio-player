@@ -17,6 +17,7 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import  GetAppIcon  from '@mui/icons-material/GetApp';
 // #endregion ------------ ICONS ---------
 
 // #region ------- Tracts -------------------------------------------------------
@@ -29,21 +30,22 @@ import winning from './music/Winning - NEFFEX.mp3';
 
 // #region -------- Styled Components -----------------------------------------
 const Div = styled('div')(({theme}) => ({
-    backgroundColor: 'black',
-    height:'100vh',
+    backgroundColor: 'transparent',
     width:'100vw',
-    paddingTop: theme.spacing(6)
+    position:'fixed',
+    right:'0',
+    bottom:'0',
 }))
 
 const CustomPaper = styled(Paper)(({theme}) => ({
-    backgroundColor: '#4c4c4c',
+    backgroundColor: '#181818',
     marginLeft: theme.spacing(6),
     marginRight: theme.spacing(6),
     padding: theme.spacing(2)
 }))
 
 const PSlider = styled(Slider)(({theme, ...props}) => ({
-    color: 'lime',
+    color:'#FE7E07',
     height: 2,
     '&:hover': {
         cursor: 'auto',
@@ -140,19 +142,23 @@ export default function Player() {
             audioPlayer.current.play();
         }
     }
+    const toggleDownload = () =>{
+        return console.log('baixou');
+    }
     
     function VolumeBtns(){
         return mute
-            ? <VolumeOffIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
-            : volume <= 20 ? <VolumeMuteIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
-            : volume <= 75 ? <VolumeDownIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
-            : <VolumeUpIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
+            ? <VolumeOffIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={() => setMute(!mute)} />
+            : volume <= 20 ? <VolumeMuteIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={() => setMute(!mute)} />
+            : volume <= 75 ? <VolumeDownIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={() => setMute(!mute)} />
+            : <VolumeUpIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={() => setMute(!mute)} />
     }
 
     return (
         <Div>
             <audio src={currentSong} ref={audioPlayer} muted={mute} />
             <CustomPaper>
+                <h1 style={{color:'#FE7E07'}}>Humanoid</h1>
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Stack direction='row' spacing={1} 
                         sx={{
@@ -172,39 +178,46 @@ export default function Player() {
                     <Stack direction='row' spacing={1}
                         sx={{
                             display: 'flex',
-                            width: '40%',
+                            width:'40%',
+                            justifyContent:'center',
                             alignItems: 'center'
                         }}>
                         <SkipPreviousIcon 
                             sx={{
-                                color: 'lime', 
-                                '&:hover': {color: 'white'}
+                                color: 'white', 
+                                '&:hover': {color: '#ECE817'}
                             }} 
                             onClick={toggleSkipBackward} disabled={true}/>
-                        <FastRewindIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={toggleBackward}/>
+                        <FastRewindIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={toggleBackward}/>
 
                         {!isPlaying
-                            ?   <PlayArrowIcon fontSize={'large'} sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
-                            :   <PauseIcon fontSize={'large'} sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
+                            ?   <PlayArrowIcon fontSize={'large'} sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={togglePlay}/>
+                            :   <PauseIcon fontSize={'large'} sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={togglePlay}/>
                         }
 
 
-                        <FastForwardIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={toggleForward} />
-                        <SkipNextIcon sx={{color: 'lime', '&:hover': {color: 'white'}}} onClick={toggleSkipForward}/>
+                        <FastForwardIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={toggleForward} />
+                        <SkipNextIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={toggleSkipForward}/>
                     </Stack>
 
-                    <Stack sx={{
+                   
+                    <Stack spacing={1} direction='row'
+                        sx={{
                         display: 'flex',
                         justifyContent: 'flex-end',
-                    }} />
+                        width: '25%',
+                        alignItems: 'center'}}
+                    >
+                        <GetAppIcon fontSize={'large'} sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={toggleDownload}/>
+                    </Stack>
                 </Box>
                 <Stack spacing={1} direction='row' sx={{
                     display: 'flex',
                     alignItems: 'center'
                 }}>
-                    <Typography sx={{color: 'lime'}}>{formatTime(elapsed)}</Typography>
+                    <Typography sx={{color: 'white'}}>{formatTime(elapsed)}</Typography>
                     <PSlider thumbless value={elapsed} max={duration} />
-                    <Typography sx={{color: 'lime'}}>{formatTime(duration - elapsed)}</Typography>
+                    <Typography sx={{color: 'white'}}>{formatTime(duration - elapsed)}</Typography>
                 </Stack>
             </CustomPaper>
         </Div>

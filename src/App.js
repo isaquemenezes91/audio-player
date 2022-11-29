@@ -1,8 +1,6 @@
 import './App.css';
 
-import Demo from './Demo';
 import Player from './Player';
-
 
 function App() {
     return (
