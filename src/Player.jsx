@@ -162,7 +162,9 @@ export default function Player() {
             setIndex(prev => prev + 1);
             audioPlayer.current.src = playlist[index + 1];
             audioPlayer.current.play();
+            console.log(index);
         }
+
     }
 
     const toggleSkipBackward = () => {
