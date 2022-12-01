@@ -91,7 +91,8 @@ export default function Player() {
 
     const [index, setIndex] = useState(0);
     
-    const [currentSong] = useState(playlist[index]);
+    const [currentSong, setCurrentSong] = useState(playlist[index]);
+
     
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(30);
@@ -158,9 +159,10 @@ export default function Player() {
             setIndex(0);
             audioPlayer.current.src = playlist[0];
             audioPlayer.current.play();
+
         } else {
             setIndex(prev => prev + 1);
-            audioPlayer.current.src = playlist[index + 1];
+            setCurrentSong(playlist[index + 1]);
             audioPlayer.current.play();
             console.log(index);
         }
