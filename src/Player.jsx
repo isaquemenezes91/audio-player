@@ -157,8 +157,10 @@ export default function Player() {
     const toggleSkipForward = () => {
         if(index >= playlist.length - 1) {
             setIndex(0);
-            audioPlayer.current.src = playlist[0];
+            setCurrentSong(playlist[0]);
+            audioPlayer.current.pause();
             audioPlayer.current.play();
+            
 
         } else {
             setIndex(prev => prev + 1);
@@ -172,11 +174,12 @@ export default function Player() {
     const toggleSkipBackward = () => {
         if(index > 0) {
             setIndex(prev => prev - 1);
-            audioPlayer.current.src = playlist[index - 1];
+            setCurrentSong(playlist[index - 1]);
             audioPlayer.current.play();
         }
     }
     const toggleDownload = () =>{
+        
         return console.log(playlist.length);
     }
     
@@ -230,7 +233,7 @@ export default function Player() {
                                 color: 'white', 
                                 '&:hover': {color: '#ECE817'}
                             }} 
-                            onClick={toggleSkipBackward} disabled={true}/>
+                            onClick={toggleSkipBackward} disabled={true} onClick={togglePlay}/>
                         <FastRewindIcon sx={{color: 'white', '&:hover': {color: '#ECE817'}}} onClick={toggleBackward}/>
 
                         {!isPlaying
